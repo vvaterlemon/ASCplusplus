@@ -7,21 +7,6 @@
 #include "ASC++/header/Paper.hpp"
 using namespace std;
 
-struct {
-	// properties
-	int fps;
-	time_t prevRender;
-	time_t tgap; // duration of time between each frame
-	// methods
-	void init(int fps) {
-		this->fps = fps;
-	}
-	void updatePaper(Paper paper) {
-		//if (prevRender + count >  )
-		paper.Render();
-	}
-} Engine;
-
 struct Dir {
 	int fb, lr; // fb (forward/backwards), lr (left/right) 
 	/* example
