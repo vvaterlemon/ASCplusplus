@@ -5,7 +5,7 @@
 #define PAPER_HPP
 
 #include <string>
-#include "../header/Imaging.hpp"
+#include "Imaging.hpp"
 
 class Paper {
 /*

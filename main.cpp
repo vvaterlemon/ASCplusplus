@@ -5,6 +5,7 @@
 #include <time.h>
 #include <math.h>
 #include "ASC++/header/Paper.hpp"
+#include "ASC++/header/Engine.hpp"
 using namespace std;
 
 struct Dir {
@@ -18,7 +19,7 @@ struct Dir {
 	-----------
 	-,+|-,0|-,-
 	
-	if the direction is cen, aka [0,0],
+	if the direction is cen, aka [0,0], is selected, it would branch Atom string into two that is spawned at the left- and right- forward directions  
 	*/
 	Dir(int fb, int lr) {
 		this->fb = fb;
@@ -30,6 +31,10 @@ struct Atom {
 	Pixel pixel;
 	Dir direction;
 };
+
+void DrawAtom(Atom* atoms) {
+
+}
 	
 int main() {
 	int width = 68;

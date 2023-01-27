@@ -4,11 +4,13 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
+#include "Paper.hpp"
+
 struct {
 	// properties
 	int fps;	
 	time_t prevRender;
-	time_t tgap; // duration of time between each frame
+	time_t tgap; // duration of time between each 
 	// methods
 	void init(int fps);
 	void updatePaper(Paper paper);
