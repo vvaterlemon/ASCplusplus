@@ -7,7 +7,7 @@
 // color
 struct Color {
 /*
-	The "Color" object contains the a foreground and background 8-bit color for ANSI escape code
+	a "Color" object contains the a foreground and background 8-bit color for ANSI escape code
 */
 	// properties
 	int foreColor, backColor;
@@ -29,7 +29,7 @@ struct {
 // pixel
 struct Pixel {
 /*
-type that stores the color and symbol of a point on the paper
+	a "Pixel" stores the color and symbol of a point on the paper
 */
 	// properties
 	Color color;
@@ -43,7 +43,9 @@ type that stores the color and symbol of a point on the paper
 
 // sprite
 struct Sprite {
-	// a type related to the storage and manipulation of an ASCII image composed of pixels
+/*
+	a "Sprite" stores and manipulates an ASCII image composed of pixels
+*/
 	// properties
 	Pixel **pixels;
 	int width, height;
