@@ -22,8 +22,8 @@ int digitsize(const int n) {
 Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC = false) {
 	width = w;
 	height = h;
-	color.foreColor = fC;
-	color.backColor = bC;
+	color.foreColorPair = fC;
+	color.backColorPair = bC;
 	symbol = sy;
 	startyLocation = "\e[6n"[6]; // WIP
 	coorWidth = (showC) ? digitsize(w) : 0;
@@ -32,7 +32,7 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC = false) {
 	pixels = new Pixel*[h + coorHeight];
 	for (int j = 0; j < h + coorHeight; j++) {
 		pixels[j] = new Pixel[w + coorWidth];
-		// Color in and symbolize pixels
+		// ColorPair in and symbolize pixels
 		for (int i = 0; i < w + coorWidth; i++) {
 			if (showC) {
 				// WIP - set coordinates coordinate space pixels
@@ -91,20 +91,20 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC = false) {
 	}
 }
 
-void Paper::Render(bool isColored) { 
+void Paper::Render(bool isColorPaired) { 
 	if (isChanged) {
 		frameString = "\033[2;0H";
-		snippetColor = pixels[0][0].color;
+		snippetColorPair = pixels[0][0].color;
 		snippetString = pixels[0][0].symbol;
 		for (int j = 0; j < height + coorHeight; j++) {
 			for (int i = 0; i < width + coorWidth; i++) {
 				if (!(i+j == 0)) {
 					Pixel currentPixel = pixels[j][i];
-					if (snippetColor == currentPixel.color) {
+					if (snippetColorPair == currentPixel.color) {
 						snippetString += currentPixel.symbol;
 					} else {
-						frameString += isColored ? "\033[38;5;" + std::to_string(snippetColor.foreColor) + ";48;5;" + std::to_string(snippetColor.backColor) + "m" + snippetString + "\033[0m" : snippetString;
-						snippetColor = currentPixel.color;
+						frameString += isColorPaired ? "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m" : snippetString;
+						snippetColorPair = currentPixel.color;
 						snippetString = currentPixel.symbol;
 						std::cout << frameString;
 					}
@@ -112,7 +112,7 @@ void Paper::Render(bool isColored) {
 			}
 			snippetString += '\n';
 		}
-		frameString += isColored ? "\033[38;5;" + std::to_string(snippetColor.foreColor) + ";48;5;" + std::to_string(snippetColor.backColor) + "m" + snippetString + "\033[0m" : snippetString;	
+		frameString += isColorPaired ? "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m" : snippetString;	
 		std::cout << frameString;
 		isChanged = false;
 	}
@@ -121,8 +121,8 @@ void Paper::Render(bool isColored) {
 void Paper::DrawPoint(int x, int y, int fC, int bC, char sy) {
 	if (x < width && x >= 0 && y < height && y >= 0) {
 		Pixel &pixel = pixels[y + coorHeight][x + coorWidth];
-		if (!(pixel.color.foreColor == fC &&
-			  pixel.color.backColor == bC &&
+		if (!(pixel.color.foreColorPair == fC &&
+			  pixel.color.backColorPair == bC &&
 			  pixel.symbol == sy)) {
 			isChanged = true;
 		}
@@ -134,11 +134,11 @@ void Paper::DrawSymbol(int x, int y, int fC, char sy) {
 		// DrawPoint and DrawSymbol could be merged with overloading parameters
 		if (x < width + coorWidth && y < height + coorHeight) {
 		Pixel &pixel = pixels[y + coorHeight][x + coorWidth];
-		if (!(pixel.color.foreColor == fC &&
+		if (!(pixel.color.foreColorPair == fC &&
 			  pixel.symbol == sy)) {
 			isChanged = true;
 		}
-		pixel.color.foreColor = fC;
+		pixel.color.foreColorPair = fC;
 		pixel.symbol = sy;
 	}
 } 

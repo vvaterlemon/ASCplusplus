@@ -40,14 +40,14 @@ int main() {
 	Engine engine;
 	int width = 68;
 	int height = 34;
-	Paper paper(width,height,255,colors.orange,' ',true);
+	Paper paper(width,height,255,colors.orange,' ',false);
 	paper.DrawPoint(1,1,1,1,' ');
 	paper.DrawRectangle(8,4,6,3,colors.black,colors.black,' ');
 	paper.DrawRectangle(10,10,8,4,colors.red,colors.blue,'@');
 	// game loop
-	//while (true) {
-	engine.updatePaper(paper);	
-	//}
+	while (true) {
+		engine.updatePaper(paper);	
+	}
 	getchar();
 	return 0;
 }

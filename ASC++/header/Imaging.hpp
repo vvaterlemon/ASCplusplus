@@ -1,29 +1,43 @@
 // Imaging.hpp
-// declaration of the Color, Pixel, and Sprite struct types
+// declaration of the RGB, ColorPairPair, Pixel, and Sprite struct types
 
 #ifndef IMAGING_HPP
 #define IMAGING_HPP 
 
-// color
-struct Color {
+#include <string>
+
+// RGB
+struct RGB {
+	// properties
+	int r,b,g;
+	// constructors
+	// using hexidecimal code
+	RGB(std::string hex);
+	//using rgb 
+	RGB(int r, int b, int g);
+};
+
+// color pair
+struct ColorPair {
 /*
-	a "Color" object contains the a foreground and background 8-bit color for ANSI escape code
+	a "ColorPair" object contains the a foreground and background 8-bit color for ANSI escape code
 */
 	// properties
-	int foreColor, backColor;
+	int foreColorPair, backColorPair;
 	// operators
-	bool operator==(const Color& other) const;
+	bool operator==(const ColorPair& other) const;
 };
 // # preset colors
 struct {
 	int red = 196;
+	int orange = 202;
+
 	int green = 46;
 	int blue = 13;
 	int magenta = 13;	
 	int cyan = 14;
 	int black = 232;
 	int white = 255;
-	int orange = 202;
 } colors;
 
 // pixel
@@ -32,7 +46,7 @@ struct Pixel {
 	a "Pixel" stores the color and symbol of a point on the paper
 */
 	// properties
-	Color color;
+	ColorPair color;
 	char symbol; // the character that is in this "pixel"
 	// methods
 	void setPixel(int fC, int bC, char sy);
@@ -51,7 +65,7 @@ struct Sprite {
 	int width, height;
 	// constructors
 	// construct simple ascii art with tranparent background color
-	Sprite(char **chars, int foreColor);
+	Sprite(char **chars, int foreColorPair);
 	Sprite(Pixel** pixels);
 };
 
