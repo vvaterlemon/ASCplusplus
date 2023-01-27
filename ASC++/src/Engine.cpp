@@ -1,6 +1,7 @@
 // Engine.cpp
 
 #include "../header/Engine.hpp"
+#include "../header/Paper.hpp"
 
 void Engine::init(int fps) {
 	this->fps = fps;

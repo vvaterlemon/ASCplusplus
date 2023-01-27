@@ -6,7 +6,7 @@
 
 #include "Paper.hpp"
 
-struct {
+struct Engine {
 	// properties
 	int fps;	
 	time_t prevRender;
@@ -14,6 +14,6 @@ struct {
 	// methods
 	void init(int fps);
 	void updatePaper(Paper paper);
-} Engine;
+};
 
 #endif

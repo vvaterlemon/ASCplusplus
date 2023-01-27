@@ -37,6 +37,7 @@ void DrawAtom(Atom* atoms) {
 }
 	
 int main() {
+	Engine engine;
 	int width = 68;
 	int height = 34;
 	Paper paper(width,height,255,colors.orange,' ',true);
@@ -45,7 +46,7 @@ int main() {
 	paper.DrawRectangle(10,10,8,4,colors.red,colors.blue,'@');
 	// game loop
 	//while (true) {
-	Engine.updatePaper(paper);	
+	engine.updatePaper(paper);	
 	//}
 	getchar();
 	return 0;
