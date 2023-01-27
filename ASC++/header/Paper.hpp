@@ -1,8 +1,6 @@
 // Paper.hpp
 // Declaration of the Paper class type
-/*
-	The "Paper" object is the canvas that is drawn on and prints it to the terminal
-*/
+
 #ifndef PAPER_HPP
 #define PAPER_HPP
 
@@ -10,6 +8,9 @@
 #include "../header/Imaging.hpp"
 
 class Paper {
+/*
+	The "Paper" object is the canvas that is drawn on and prints it to the terminal
+*/
 private:
 	// properties
 	Pixel **pixels; // holds the 2d image as Pixel objects
