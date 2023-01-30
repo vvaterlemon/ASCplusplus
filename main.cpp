@@ -4,7 +4,6 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
-#include "ASC++/header/Paper.hpp"
 #include "ASC++/header/Engine.hpp"
 using namespace std;
 

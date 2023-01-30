@@ -5,7 +5,6 @@
 #include <string>
 #include <math.h>
 #include "../header/Paper.hpp"
-#include "../header/Imaging.hpp"
 
 int getsize(const auto &arr) {
 	// return the number of elements in an array
