@@ -17,6 +17,7 @@ int digitsize(const int n) {
 	return floor(log10(abs(n))) + 1;
 }
 
+// Suggestion - applicable to all Paper related methods, bC should be prioritised before fC
 Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 	width = w;
 	height = h;
@@ -95,34 +96,35 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 	}
 }
 
-void Paper::Render(bool isColorPaired) { 
-	if (isChanged) { // Bugged, still Renders despite 0 changes
+// Bugged, still Renders despite 0 changes
+// also, rendering at high fps makes the cursor flicker and dart about the screen (despite there being only 1 cout command in Render), likely to an issue in how the terminal reads ANSI commands
+void Paper::Render() { 
+	if (isChanged) { 
 		frameString = "\033[2;0H";
 		snippetColorPair = pixels[0][0].color;
 		snippetString = pixels[0][0].symbol;
 		for (int j = 0; j < height + coorHeight; j++) {
 			for (int i = 0; i < width + coorWidth; i++) {
 				if (!(i+j == 0)) {
-					Pixel currentPixel = pixels[j][i];
+					Pixel &currentPixel = pixels[j][i];
 					if (snippetColorPair == currentPixel.color) {
 						snippetString += currentPixel.symbol;
 					} else {
-						frameString += isColorPaired ? "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m" : snippetString;
+						frameString += "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m";
 						snippetColorPair = currentPixel.color;
 						snippetString = currentPixel.symbol;
-						std::cout << frameString;
 					}
 				}
 			}
 			snippetString += '\n';
 		}
-		frameString += isColorPaired ? "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m" : snippetString;	
+		frameString += "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m";	
 		std::cout << frameString;
 		isChanged = false;
 	}
 }
 
-void Paper::DrawPoint(int x, int y, int fC, int bC, char sy) {
+void Paper::DrawPoint(int x, int y, int fC, int bC, char sy, int ) {
 	if (x < width && x >= 0 && y < height && y >= 0) {
 		Pixel &pixel = pixels[y + coorHeight][x + coorWidth];
 		if (!(pixel.color.foreColorPair == fC &&
