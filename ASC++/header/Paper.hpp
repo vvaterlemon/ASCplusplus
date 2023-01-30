@@ -31,7 +31,7 @@ public:
 	char symbol; // symbol of the paper space
 	// methods
 	// constructors
-	Paper(int w, int h, int fC, int bC, char sy, bool showC); // construct with characters
+	Paper(int w, int h, int fC, int bC, char sy, bool showC = false); // construct with characters
 	Paper(int w, int h, int bC, bool showC); // WIP - contruct without characters 
 	void Render(bool isColorPaired = true);
 	void DrawPoint(int x, int y, int fC, int bC, char sy);

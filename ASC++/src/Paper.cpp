@@ -17,8 +17,7 @@ int digitsize(const int n) {
 	return floor(log10(abs(n))) + 1;
 }
 
-
-Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC = false) {
+Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 	width = w;
 	height = h;
 	color.foreColorPair = fC;
@@ -57,6 +56,12 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC = false) {
 								 false
 
 					though still bugged, the alignment of the digit does not align in the same line as its place
+					
+					Expected behaviour: 00000000011 ...
+										12345678901
+
+					Resulted behaviour: 12345678911 ...
+										00000000001
 					*/
 					// Alternate between black and white foreground ant background
 					if (j % 2) {
@@ -91,7 +96,7 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC = false) {
 }
 
 void Paper::Render(bool isColorPaired) { 
-	if (isChanged) {
+	if (isChanged) { // Bugged, still Renders despite 0 changes
 		frameString = "\033[2;0H";
 		snippetColorPair = pixels[0][0].color;
 		snippetString = pixels[0][0].symbol;
