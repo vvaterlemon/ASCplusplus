@@ -6,6 +6,7 @@
 
 #include "Paper.hpp"
 
+// suggestion: Engine should a constructor/initiator
 struct Engine {
 	// properties
 	int fps;	

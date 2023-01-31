@@ -6,10 +6,11 @@
 
 #include <string>
 
-// WIP - RGB 
+// WIP - RGB
+// Killed an entire branch that was dedicaded to implementing since it spagettied, be warned
 struct RGB {
 	// properties
-	int r,b,g;
+	unsigned int r,b,g;
 	// constructors
 	// using hexidecimal code
 	RGB(std::string hex);
@@ -23,7 +24,7 @@ struct ColorPair {
 	a "ColorPair" object contains the a foreground and background as 8-bit colors
 */
 	// properties
-	int foreColorPair, backColorPair;
+	unsigned int foreColorPair, backColorPair;
 	// operators
 	bool operator==(const ColorPair& other) const;
 };

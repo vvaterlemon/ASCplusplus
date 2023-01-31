@@ -6,20 +6,20 @@
 #include <math.h>
 #include "../header/Paper.hpp"
 
-int getsize(const auto &arr) {
+unsigned int getsize(const auto &arr) {
 	// return the number of elements in an array
 	return sizeof(arr)/sizeof(arr[0]) - 1;
 }
 
-int digitsize(const int n) {
+unsigned int digitsize(const unsigned int n) {
 	// returns the number of digits in an int of base 10
 	if (n == 0) return 1;
-	return floor(log10(abs(n))) + 1;
+	return floor(log10(n)) + 1;
 }
 
 // constructors
 // Suggestion - applicable to all Paper related methods, bC should be prioritised before fC
-Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
+Paper::Paper(unsigned int w, unsigned int h, unsigned int fC, unsigned int bC, char sy, bool showC) {
 	width = w;
 	height = h;
 	color.foreColorPair = fC;
@@ -30,15 +30,15 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 	coorHeight = (showC) ? digitsize(h) : 0;
 	// Set pixels size, colors, and symbol
 	pixels = new Pixel*[h + coorHeight];
-	for (int j = 0; j < h + coorHeight; j++) {
+	for (unsigned int j = 0; j < h + coorHeight; j++) {
 		pixels[j] = new Pixel[w + coorWidth];
 		// ColorPair in and symbolize pixels
-		for (int i = 0; i < w + coorWidth; i++) {
+		for (unsigned int i = 0; i < w + coorWidth; i++) {
 			if (showC) {
 				// WIP - set coordinates coordinate space pixels
 				if (i < coorWidth && j >= coorHeight) {
-					// set the vertical coordinate
-					digit = (i<=digitsize(j-coorHeight)-1) ? std::to_string(j-coorHeight)[i] : ' ';
+					// set the vertical coordinate lables
+					digit = (i <= digitsize(j-coorHeight)-1) ? std::to_string(j-coorHeight)[i] : ' ';
 					/*
 					case example where showC=1, width=15, height=5
 					 01234567 ... 14 -> i index of "pixel"
@@ -123,9 +123,9 @@ void Paper::Render() {
 		snippetColorPair = pixels[0][0].color;
 		snippetString = pixels[0][0].symbol;
 		// iterate over each j coordinate
-		for (int j = 0; j < height + coorHeight; j++) {
+		for (unsigned int j = 0; j < height + coorHeight; j++) {
 			// iterate over each i coordinate
-			for (int i = 0; i < width + coorWidth; i++) {
+			for (unsigned int i = 0; i < width + coorWidth; i++) {
 				// skip origin
 				if (!(i+j == 0)) {
 					Pixel &currentPixel = pixels[j][i];
@@ -152,8 +152,8 @@ void Paper::Render() {
 	isChanged = false; // Bugged, for some mystical reason, this new assignment only applies within the scope of this method
 }
 
-void Paper::DrawPoint(int x, int y, int fC, int bC, char sy) {
-	if (x < width && x >= 0 && y < height && y >= 0) {
+void Paper::DrawPoint(int x, int y, unsigned int fC, unsigned int bC, char sy) {
+	if (abs(x) < width && x >= 0 && abs(y) < height && y >= 0) {
 		Pixel &pixel = pixels[y + coorHeight][x + coorWidth];
 		if (!(pixel.color.foreColorPair == fC &&
 			  pixel.color.backColorPair == bC &&
@@ -163,8 +163,8 @@ void Paper::DrawPoint(int x, int y, int fC, int bC, char sy) {
 		pixel.setPixel(fC, bC, sy);
 	}
 }
-
-void Paper::DrawSymbol(int x, int y, int fC, char sy) {
+/*
+void Paper::DrawSymbol(int x, int y, unsigned int fC, char sy) {
 		// DrawPoint and DrawSymbol could be merged with overloading parameters
 		if (x < width + coorWidth && y < height + coorHeight) {
 		Pixel &pixel = pixels[y + coorHeight][x + coorWidth];
@@ -176,16 +176,17 @@ void Paper::DrawSymbol(int x, int y, int fC, char sy) {
 		pixel.symbol = sy;
 	}
 } 
+*/
 
-void Paper::DrawRectangle(int x, int y, int w, int h, int fC, int bC, char sy) {
-	for (int j = y; j < h+y; j++) {
-		for (int i = x; i < w+x; i++) {
+void Paper::DrawRectangle(int x, int y, unsigned int w, unsigned int h, unsigned int fC, unsigned int bC, char sy) {
+	for (unsigned int j = y; j < h+y; j++) {
+		for (unsigned int i = x; i < w+x; i++) {
 			DrawPoint(i, j, fC, bC, sy);
 		}
 	}
 }
 
-void Paper::DrawText(int x, int y, int fC, int bC, std::string text) {
+void Paper::DrawText(int x, int y, unsigned int fC, unsigned int bC, std::string text) {
 	for (unsigned int i = 0; i < text.size(); i++) {
 		DrawPoint(x + i, y, fC, bC, text[i]);
 	}
