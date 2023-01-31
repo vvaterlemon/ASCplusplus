@@ -104,23 +104,38 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 bool Paper::IsChanged() { return isChanged; }
 
 // methods
-// Bugged, still Renders despite 0 changes
-// also, rendering at high fps makes the cursor flicker and dart about the screen (despite there being only 1 cout command in Render), likely to an issue in how the terminal reads ANSI commands
 void Paper::Render() {
-	// prints the image stored in "pixels" using ANSI escape codes with std::cout
+	/*
+		prints the image stored in "pixels" using ANSI escape codes with std::cout
+		
+		This function is prime target for any optimization
+
+		Bugs: 
+			- still Renders despite current and previous frames being identical
+			- Rendering at high fps makes the cursor flicker and dart about the screen (despite there being only 1 cout command in Render), likely to an issue in how the terminal reads ANSI commands
+	*/
+	// only create and print "frameString" if the current frame is different from the last
 	if (isChanged) {
-		// initialize the first pixel  
+		// tell terminal to set cursor (aka print location) at location (0,2)
+		// WIP - should instead be set to location where the program is called 
 		frameString = "\033[2;0H";
+		// initialize for the "ColorPair" at the origin
 		snippetColorPair = pixels[0][0].color;
 		snippetString = pixels[0][0].symbol;
+		// iterate over each j coordinate
 		for (int j = 0; j < height + coorHeight; j++) {
+			// iterate over each i coordinate
 			for (int i = 0; i < width + coorWidth; i++) {
+				// skip origin
 				if (!(i+j == 0)) {
 					Pixel &currentPixel = pixels[j][i];
 					if (snippetColorPair == currentPixel.color) {
 						snippetString += currentPixel.symbol;
 					} else {
+						// Now that the a new color is reached...
+						// concat. "snippetString" to "frameString" 
 						frameString += "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m";
+						// initialize for new Color
 						snippetColorPair = currentPixel.color;
 						snippetString = currentPixel.symbol;
 					}
@@ -128,10 +143,13 @@ void Paper::Render() {
 			}
 			snippetString += '\n';
 		}
+		// concat. remaining "snippetString"
 		frameString += "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m";	
+		// flush final image to string 
 		std::cout << frameString;
 	}
-	isChanged = false;
+	// assumes that the next frame is identical to the current one. Only, when any "Draw..." function would update "isChanged" to true
+	isChanged = false; // Bugged, for some mystical reason, this new assignment only applies within the scope of this method
 }
 
 void Paper::DrawPoint(int x, int y, int fC, int bC, char sy) {
