@@ -14,7 +14,7 @@ extern int digitsize(const int n);
 
 class Paper {
 /*
-	The "Paper" object is the canvas that is drawn on and prints it to the terminal
+	The "Paper" object is the canvas that is drawn on and is printed it to the terminal
 */
 private:
 	// properties
@@ -37,14 +37,17 @@ public:
 	// constructors
 	Paper(int w, int h, int fC, int bC, char sy, bool showC = false); // construct with characters
 	Paper(int w, int h, int bC, bool showC); // WIP - contruct without characters 
+	// get set
+	bool IsChanged();
 	// methods
-	void Render();
-	void DrawPoint(int x, int y, int fC, int bC, char sy);
-	void DrawSymbol(int x, int y, int fC, char sy);
-	void DrawRectangle(int x, int y, int w, int h, int fC, int bC, char sy);
-	void DrawText(int x, int y, int fC, int bC, std::string text);
-	void DrawLine(); // WIP
-	void DrawSprite(int x, int y, Sprite sprite);
+	void Render(); // prints the image stored in "pixels" using ANSI escape codes with std::cout
+	// "Drawing" is the process of setting "pixel" objects in "pixels"
+	void DrawPoint(int x, int y, int fC, int bC, char sy); // "Draws" a pixel at a coordinate
+	void DrawSymbol(int x, int y, int fC, char sy); // WIP - "Draws" a pixel (with transparent background) at a coordinate
+	void DrawRectangle(int x, int y, int w, int h, int fC, int bC, char sy); // "Draws" a rectangle using "DrawPoint()"
+	void DrawText(int x, int y, int fC, int bC, std::string text); // "Draws" a text using "DrawPoint()"
+	void DrawLine(); // WIP - "Draws" a line using "DrawPoint()" 
+	void DrawSprite(int x, int y, Sprite sprite); // WIP - "Draws" a sprite image using "DrawPoint()"
 };
 
 #endif

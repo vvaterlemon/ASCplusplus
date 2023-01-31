@@ -17,6 +17,7 @@ int digitsize(const int n) {
 	return floor(log10(abs(n))) + 1;
 }
 
+// constructors
 // Suggestion - applicable to all Paper related methods, bC should be prioritised before fC
 Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 	width = w;
@@ -40,15 +41,18 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 					digit = (i<=digitsize(j-coorHeight)-1) ? std::to_string(j-coorHeight)[i] : ' ';
 					/*
 					case example where showC=1, width=15, height=5
-					 01234567 ... 14 -> i index of pixel
-					0  000000 ... 1  -> coordinate
-					1  012345 ... 2  -> cooridnate
+					 01234567 ... 14 -> i index of "pixel"
+					0  000000 ... 1  -> x coordinate
+					1  012345 ... 2  -> x cooridnate
 					200              -> paper space
 					301
 					402
 					503
 					604
-
+					||└> y-coordinate
+					|└-> y-coordinate
+					└--> j index of "pixels"  
+					
 					when setting the pixels for vertical coordinates, case that j=2 & i=1 & coorHeight=2:
 						digit = (1<=digitsize(2-2)-1)
 								    digitsize(0)-1
@@ -96,10 +100,16 @@ Paper::Paper(int w, int h, int fC, int bC, char sy, bool showC) {
 	}
 }
 
+// get-setters
+bool Paper::IsChanged() { return isChanged; }
+
+// methods
 // Bugged, still Renders despite 0 changes
 // also, rendering at high fps makes the cursor flicker and dart about the screen (despite there being only 1 cout command in Render), likely to an issue in how the terminal reads ANSI commands
-void Paper::Render() { 
-	if (isChanged) { 
+void Paper::Render() {
+	// prints the image stored in "pixels" using ANSI escape codes with std::cout
+	if (isChanged) {
+		// initialize the first pixel  
 		frameString = "\033[2;0H";
 		snippetColorPair = pixels[0][0].color;
 		snippetString = pixels[0][0].symbol;
@@ -120,11 +130,11 @@ void Paper::Render() {
 		}
 		frameString += "\033[38;5;" + std::to_string(snippetColorPair.foreColorPair) + ";48;5;" + std::to_string(snippetColorPair.backColorPair) + "m" + snippetString + "\033[0m";	
 		std::cout << frameString;
-		isChanged = false;
 	}
+	isChanged = false;
 }
 
-void Paper::DrawPoint(int x, int y, int fC, int bC, char sy, int ) {
+void Paper::DrawPoint(int x, int y, int fC, int bC, char sy) {
 	if (x < width && x >= 0 && y < height && y >= 0) {
 		Pixel &pixel = pixels[y + coorHeight][x + coorWidth];
 		if (!(pixel.color.foreColorPair == fC &&
