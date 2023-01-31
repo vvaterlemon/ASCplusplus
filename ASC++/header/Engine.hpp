@@ -6,6 +6,12 @@
 
 #include "Paper.hpp"
 
+/*
+	WIP
+
+	The engine is the object that would handle user input, fps, resolution (aka font size)
+*/
+
 // suggestion: Engine should a constructor/initiator
 struct Engine {
 	// properties
