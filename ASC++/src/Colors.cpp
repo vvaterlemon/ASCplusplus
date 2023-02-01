@@ -46,6 +46,10 @@ RGB::RGB(std::string hex) {
 }
 // using rgb int
 RGB::RGB(int r, int b, int g) : r(r), b(b), g(g) {}
+// operator
+bool RGB::operator==(const RGB& other) const {
+	return r == other.r && g == other.g && b == other.b;
+}
 
 // color pair definition
 // operator

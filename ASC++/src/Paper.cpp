@@ -148,7 +148,7 @@ void Paper::Render() {
 		// flush final image to string 
 		std::cout << frameString;
 	}
-	// assumes that the next frame is identical to the current one. Only, when any "Draw..." function would update "isChanged" to true
+	// assumes that the next frame is identical to the current one. Only when any "Draw..." function would update "isChanged" to true
 	isChanged = false; // Bugged, for some mystical reason, this new assignment only applies within the scope of this method
 }
 
@@ -191,6 +191,25 @@ void Paper::DrawText(int x, int y, unsigned int fC, unsigned int bC, std::string
 		DrawPoint(x + i, y, fC, bC, text[i]);
 	}
 } 
+
+void Paper::DrawLine(int x1, int y1, int x2, int y2, unsigned int fC, unsigned int bC, char symbol) {
+	/*
+		 0123456789
+		0 
+		1 @
+		2  o
+		3   o
+		4    o
+		5     @
+		6
+		7
+		8
+		9
+	*/
+	for (int i = x1; i < x2; i++) {
+
+	}
+}
 
 void Paper::DrawSprite(int x, int y, Sprite sprite) {
 	// WIP

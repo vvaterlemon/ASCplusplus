@@ -16,6 +16,8 @@ struct RGB {
 	RGB(std::string hex);
 	//using rgb 
 	RGB(int r, int b, int g);
+	// operators
+	bool operator==(const RGB& other) const;
 };
 
 // color pair

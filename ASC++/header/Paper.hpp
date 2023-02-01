@@ -45,7 +45,7 @@ public:
 	void DrawSymbol(int x, int y, unsigned int fC, char sy); // WIP - "Draws" a pixel (with transparent background) at a coordinate
 	void DrawRectangle(int x, int y, unsigned int w, unsigned int h, unsigned int fC, unsigned int bC, char sy); // "Draws" a rectangle using "DrawPoint()"
 	void DrawText(int x, int y, unsigned int fC, unsigned int bC, std::string text); // "Draws" a text using "DrawPoint()"
-	void DrawLine(); // WIP - "Draws" a line using "DrawPoint()" 
+	void DrawLine(int x1, int y1, int x2, int y2, unsigned int fC, unsigned int bC, char symbol); // WIP - "Draws" a line using "DrawPoint()" 
 	void DrawSprite(int x, int y, Sprite sprite); // WIP - "Draws" a sprite image using "DrawPoint()"
 };
 
